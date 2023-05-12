@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fdfb3cf703c3f4d8462cf081ee249c, type: 3}
+  m_Name: Gold Sword Recipe
+  m_EditorClassIdentifier: 
+  recipeName: Gold Sword Recipe
+  inputItems:
+  - <item>k__BackingField: {fileID: 11400000, guid: 93e435c4fb7d5704ca8784fc077397d4, type: 2}
+    <quantity>k__BackingField: 1
+  - <item>k__BackingField: {fileID: 11400000, guid: fbe56912da0fc8d408085a09b1b49af1, type: 2}
+    <quantity>k__BackingField: 1
+  outputItems:
+    <item>k__BackingField: {fileID: 11400000, guid: b6b69e77431fd904bac2e8d4a62a54fd, type: 2}
+    <quantity>k__BackingField: 1
