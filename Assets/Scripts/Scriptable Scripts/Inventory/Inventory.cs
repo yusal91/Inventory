@@ -547,8 +547,9 @@ public class Inventory : MonoBehaviour
             
             RecipeRefreshUI();
             Debug.Log(recipe);
-            
-            //for (int i = 0; i < recipeSlot.Length; i++)
+
+            // was making so the when the crafting window is active it should select first item
+            //for (int i = 0; i < recipeSlot.Length; i++)       
             //{
             //    if (recipeSlot.Contains(recipeSlot[i]))
             //    {
@@ -556,17 +557,16 @@ public class Inventory : MonoBehaviour
             //        {
             //            continue;
             //        }
-            //        if(selectedRecipe == null)
+            //        if(selectedRecipe != null)
             //        {
-            //            selectedRecipe = i[currentSelectedRecipeIndex];
-            //            InputItemSlotRefreshUI();
-            //            RecipeSelection.Instance.SetRecipeData(i[i].recipeName);
+            //           selectedRecipe = craftingRecipes[currentSelectedRecipeIndex];
+            //            InputItemSlotRefreshUI();                     
             //            RecipeSelection.Instance.SelectedRecipe();
             //        }                   
             //    }
             //    RecipeSelection.Instance.OnLeftMouseBtnClick += OnClickEvent;
             //}
-        }        
+        }
     }
 
     public void RecipeRefreshUI()
@@ -581,8 +581,7 @@ public class Inventory : MonoBehaviour
         }
 
         for (int i = loopLimit; i < recipeSlot.Length; i++)
-        {
-            //recipeSlot[i].transform.GetComponent<Button>().interactable = false;
+        {            
             //RecipeSelection.Instance.OnLeftMouseBtnClick -= OnClickEvent;
             recipeSlot[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
