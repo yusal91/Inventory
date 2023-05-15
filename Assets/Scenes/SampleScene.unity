@@ -6572,7 +6572,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f0e4e062d3d6564aa2ef228ada60e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftingRecipes: []
+  craftingRecipes:
+  - {fileID: 11400000, guid: 1e2119fbe03e3c74d8d61bb560d3de20, type: 2}
+  - {fileID: 11400000, guid: ed3efbd12687c9c42aa2802def3c2793, type: 2}
+  - {fileID: 11400000, guid: 7476e9b80bd4d0b45b817cbe122bf709, type: 2}
+  - {fileID: 11400000, guid: 88903607c8fd5c149be36afaecbe775b, type: 2}
+  - {fileID: 11400000, guid: 86789bd61fb31e94bae262be5f00793f, type: 2}
   craftingRecipeHolder: {fileID: 1130056781}
   recipeSlot: []
   inputItemHolder: {fileID: 377909341}
@@ -6604,7 +6609,7 @@ MonoBehaviour:
     <item>k__BackingField: {fileID: 0}
     <quantity>k__BackingField: 0
   currentSelectedRecipeIndex: 0
-  selectedRecipe: {fileID: 0}
+  selectRecipe: {fileID: 0}
 --- !u!1001 &1191478980
 PrefabInstance:
   m_ObjectHideFlags: 0

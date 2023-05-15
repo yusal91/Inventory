@@ -74,11 +74,13 @@ public class Inventory : MonoBehaviour
 
     [Header("Recipe Selection Index")]
     [SerializeField] private int currentSelectedRecipeIndex;
-    [SerializeField] private CraftingRecipeClass selectedRecipe;
+    [SerializeField] private CraftingRecipeClass selectRecipe;
+    [SerializeField] private CraftingRecipeClass deSelectRecipe;
+    private bool isRecipeSelected;
 
-    public event Action<int> onRecipeSelected;    
-
-
+    public event Action<int> onRecipeSelected;
+    
+    
     private void Start()
     {
         SlotsInfoOnStart();
@@ -522,6 +524,18 @@ public class Inventory : MonoBehaviour
 
     #region Crafting methods
 
+    private CraftingRecipeClass GetTheRecipeIndexOnClick()
+    {
+        for (int i = 0; i < recipeSlot.Length; i++)
+        {
+            if(recipeSlot != null)
+            {
+                return craftingRecipes[i];
+            }
+        }
+        return null;
+    }
+
     void SettingUpRecipeSlot()           // We First set the Recipe UI Slots 
     {
         recipeSlot = new GameObject[craftingRecipeHolder.transform.childCount];
@@ -534,7 +548,7 @@ public class Inventory : MonoBehaviour
 
     void LoadCraftingRecipesFromResources()    // should not load on start only when i press to turn the menu 
     {
-        craftingRecipes = Resources.LoadAll<CraftingRecipeClass>("Crafting");    // i can now get the recipes 
+        //craftingRecipes = Resources.LoadAll<CraftingRecipeClass>("Crafting");    // i can now get the recipes 
         //i = Resources.LoadAll<CraftingRecipeClass>("Crafting").ToList();    // i can now get the recipes 
         Debug.Log(craftingRecipes);
         AddRecipeInformationToRecipeSlot();
@@ -544,27 +558,26 @@ public class Inventory : MonoBehaviour
     {
         foreach (CraftingRecipeClass recipe in craftingRecipes)
         {
-            
             RecipeRefreshUI();
             Debug.Log(recipe);
 
-            // was making so the when the crafting window is active it should select first item
-            //for (int i = 0; i < recipeSlot.Length; i++)       
+            ////was making so the when the crafting window is active it should select first item
+            //for (int i = 0; i < recipeSlot.Length; i++)
             //{
             //    if (recipeSlot.Contains(recipeSlot[i]))
             //    {
-            //        if(recipeSlot == null)
+            //        if (recipeSlot == null)
             //        {
             //            continue;
             //        }
-            //        if(selectedRecipe != null)
+            //        if (selectRecipe != null)
             //        {
-            //           selectedRecipe = craftingRecipes[currentSelectedRecipeIndex];
-            //            InputItemSlotRefreshUI();                     
+            //            selectRecipe = craftingRecipes[currentSelectedRecipeIndex];
+            //            InputItemSlotRefreshUI();
             //            RecipeSelection.Instance.SelectedRecipe();
-            //        }                   
+            //        }
             //    }
-            //    RecipeSelection.Instance.OnLeftMouseBtnClick += OnClickEvent;
+            //    //RecipeSelection.Instance.OnLeftMouseBtnClick += OnClickEvent;
             //}
         }
     }
@@ -589,29 +602,46 @@ public class Inventory : MonoBehaviour
 
     private void OnClickEvent(RecipeSelection selection)
     {
-        for (int i = 0; i < recipeSlot.Length; i++)
-        {
-            if (currentSelectedRecipeIndex != craftingRecipes.Length)
-            {
-                selectedRecipe = craftingRecipes[currentSelectedRecipeIndex];                
-                RecipeSelection.Instance.SelectedRecipe();
-                
-                Debug.Log(currentSelectedRecipeIndex);
-                // so far it works now how do i fix how to select other recipes
+        if (!isRecipeSelected && selectRecipe == null)
+        { 
+            selectRecipe = GetTheRecipeIndexOnClick();
+            Debug.Log("Selected Recipe: " + selectRecipe);
+            InputItemSlotRefreshUI();
+            selection.SelectedRecipe();
+        }
+        if (isRecipeSelected && selectRecipe != null)
+        {           
+            selectRecipe = null;
+            Debug.Log("Not Selected Anymore: " + selectRecipe);            
+        }
+        
 
-                if(craftingRecipes[i].inputItems.Count() < i )
-                {
-                    InputItemSlotRefreshUI();
-                }
+        #region old Code want to try new one
+        //for (int i = 0; i < recipeSlot.Length; i++)
+        //{
 
-                //for (int inputItem = 0; inputItem < craftingRecipes[i].inputItems.Length; inputItem++)
-                //{
-                //    InputItemSlotRefreshUI();
-                //}
-            }            
+        //    if (currentSelectedRecipeIndex != craftingRecipes.Length)
+        //    {
+        //        selectRecipe = craftingRecipes[currentSelectedRecipeIndex];
+        //        RecipeSelection.Instance.SelectedRecipe();
 
-            onRecipeSelected?.Invoke(i);
-        } 
+        //        Debug.Log(currentSelectedRecipeIndex);
+        //        // so far it works now how do i fix how to select other recipes
+
+        //        if (craftingRecipes[i].inputItems.Count() <= recipeSlot.Length)
+        //        {
+        //            InputItemSlotRefreshUI();
+        //        }
+
+        //        //for (int inputItem = 0; inputItem < craftingRecipes[i].inputItems.Length; inputItem++)
+        //        //{
+        //        //    InputItemSlotRefreshUI();
+        //        //}
+        //    }
+
+        //    onRecipeSelected?.Invoke(i);
+        //}
+        #endregion
     }
 
     void InputItemSlotRefreshUI()

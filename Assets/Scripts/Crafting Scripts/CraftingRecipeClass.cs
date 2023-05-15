@@ -47,3 +47,4 @@ public class CraftingRecipeClass : ScriptableObject
         inventory.Add(outputItems.item, outputItems.quantity);
     }
 }
+

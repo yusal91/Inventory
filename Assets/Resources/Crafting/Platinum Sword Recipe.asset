@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeName: 'Platinum Sword Recipe '
   inputItems:
-  - <item>k__BackingField: {fileID: 11400000, guid: 93e435c4fb7d5704ca8784fc077397d4, type: 2}
-    <quantity>k__BackingField: 2
-  - <item>k__BackingField: {fileID: 11400000, guid: fbe56912da0fc8d408085a09b1b49af1, type: 2}
-    <quantity>k__BackingField: 5
-  - <item>k__BackingField: {fileID: 11400000, guid: 651a292fee080884b87e56f28452ecc9, type: 2}
-    <quantity>k__BackingField: 2
+  - <item>k__BackingField: {fileID: 11400000, guid: 748655d11a3e6fe47b99a7a012dd5dad, type: 2}
+    <quantity>k__BackingField: 1
+  - <item>k__BackingField: {fileID: 11400000, guid: 748655d11a3e6fe47b99a7a012dd5dad, type: 2}
+    <quantity>k__BackingField: 1
+  - <item>k__BackingField: {fileID: 11400000, guid: b6b69e77431fd904bac2e8d4a62a54fd, type: 2}
+    <quantity>k__BackingField: 1
   outputItems:
     <item>k__BackingField: {fileID: 11400000, guid: b6b69e77431fd904bac2e8d4a62a54fd, type: 2}
     <quantity>k__BackingField: 1
