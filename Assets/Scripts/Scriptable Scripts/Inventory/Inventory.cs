@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviour
 
     [Header("List Output Item")]
     [SerializeField] private GameObject outputItemHolder;
-    [SerializeField] private GameObject[] outputItemSlot;        
+    [SerializeField] private GameObject outputItemSlot;        
 
     [Header("Crafting Recipes Object")]
     [SerializeField] private GameObject craftingMenu;     
@@ -97,7 +97,7 @@ public class Inventory : MonoBehaviour
     {
         InventoryMenuKey();  // button to Set Active the Inventory
         DetectMouseButton(); // for Drag and Drop
-        PressKeyToCraft();   // crafting button
+        //PressKeyToCraft();   // crafting button
         HotbarSelector();
 
         ActivateCraftingMenu();
@@ -524,7 +524,7 @@ public class Inventory : MonoBehaviour
 
     #region Crafting methods
 
-    private CraftingRecipeClass GetTheRecipeIndexOnClick()
+    private CraftingRecipeClass GetTheRecipeOnClick()
     {
         for (int i = 0; i < recipeSlot.Length; i++)
         {
@@ -604,44 +604,12 @@ public class Inventory : MonoBehaviour
     {
         if (!isRecipeSelected && selectRecipe == null)
         { 
-            selectRecipe = GetTheRecipeIndexOnClick();
+            selectRecipe = GetTheRecipeOnClick();
             Debug.Log("Selected Recipe: " + selectRecipe);
             InputItemSlotRefreshUI();
             selection.SelectedRecipe();
-        }
-        if (isRecipeSelected && selectRecipe != null)
-        {           
-            selectRecipe = null;
-            Debug.Log("Not Selected Anymore: " + selectRecipe);            
-        }
-        
-
-        #region old Code want to try new one
-        //for (int i = 0; i < recipeSlot.Length; i++)
-        //{
-
-        //    if (currentSelectedRecipeIndex != craftingRecipes.Length)
-        //    {
-        //        selectRecipe = craftingRecipes[currentSelectedRecipeIndex];
-        //        RecipeSelection.Instance.SelectedRecipe();
-
-        //        Debug.Log(currentSelectedRecipeIndex);
-        //        // so far it works now how do i fix how to select other recipes
-
-        //        if (craftingRecipes[i].inputItems.Count() <= recipeSlot.Length)
-        //        {
-        //            InputItemSlotRefreshUI();
-        //        }
-
-        //        //for (int inputItem = 0; inputItem < craftingRecipes[i].inputItems.Length; inputItem++)
-        //        //{
-        //        //    InputItemSlotRefreshUI();
-        //        //}
-        //    }
-
-        //    onRecipeSelected?.Invoke(i);
-        //}
-        #endregion
+            RefreshOutputItemSlot(selectRecipe);
+        }     
     }
 
     void InputItemSlotRefreshUI()
@@ -654,7 +622,8 @@ public class Inventory : MonoBehaviour
                 inputItemSlot[i].transform.GetComponent<Image>().sprite = craftingRecipes[i].inputItems[i].item.icon;
                 Debug.Log(craftingRecipes[i].inputItems[i].item.name);
 
-                if (craftingRecipes[i].inputItems.Length > 0 && craftingRecipes[i].inputItems[i].item.isStackable)
+                if (craftingRecipes[i].inputItems[i].item.isStackable && 
+                    contains(craftingRecipes[i].inputItems[i].item, craftingRecipes[i].inputItems[i].quantity))
                 {
                     inputItemSlot[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                        craftingRecipes[i].inputItems[i].quantity.ToString();
@@ -670,6 +639,29 @@ public class Inventory : MonoBehaviour
         }
     }  
     
+    void RefreshOutputItemSlot(CraftingRecipeClass outputItem)
+    {
+        try
+        {
+            outputItemSlot.transform.GetComponent<Image>().enabled = true;
+            outputItemSlot.transform.GetComponent<Image>().sprite = outputItem.outputItems.item.icon;
+            Debug.Log(outputItem.outputItems.item.icon);
+
+            if (outputItem.outputItems.item.isStackable)
+            {
+                outputItemSlot.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                   outputItem.outputItems.quantity.ToString();
+                Debug.Log(outputItem.outputItems.quantity.ToString());
+            }
+        }
+        catch
+        {
+            outputItemSlot.transform.GetComponent<Image>().sprite = null;
+            outputItemSlot.transform.GetComponent<Image>().enabled = false;
+            outputItemSlot.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+        }
+    }
+
     void SettingInputItemSlot()
     {
         inputItemSlot = new GameObject[inputItemHolder.transform.childCount];
@@ -678,31 +670,34 @@ public class Inventory : MonoBehaviour
         {
             inputItemSlot[i] = inputItemHolder.transform.GetChild(i).gameObject;          
         }
-    }   
+    } 
+  
 
     void ActivateCraftingMenu()
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
             craftingMenu.SetActive(!craftingMenu.activeSelf);
-            RecipeSelection.Instance.OnLeftMouseBtnClick += OnClickEvent;
+            RecipeSelection.Instance.OnLeftMouseBtnClick += OnClickEvent;             // subscriping here
             SettingInputItemSlot();            
+        }
+        else
+        {
+            RecipeSelection.Instance.OnLeftMouseBtnClick -= OnClickEvent;
         }
     } 
 
-    void PressKeyToCraft()
+    public void PressKeyToCraft()
     {
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            StartCrafting(craftingRecipes[0]);
-        }
+        StartCrafting(selectRecipe);
     }
 
-    void StartCrafting(CraftingRecipeClass recipe)
+    public void StartCrafting(CraftingRecipeClass recipe)
     {
         if(recipe.CanCraft(this))
         {
             recipe.Craft(this);
+            RefreshOutputItemSlot(recipe);
         }
         else
         {

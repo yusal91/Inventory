@@ -6350,6 +6350,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5734352499042192976, guid: a7da83e99285f1643928e605b79c643c, type: 3}
   m_PrefabInstance: {fileID: 1131186474}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1145303344 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5575391485264314727, guid: 85203d0f8aba438409f06809e7780c9a, type: 3}
+  m_PrefabInstance: {fileID: 421699993}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1176300206
 GameObject:
   m_ObjectHideFlags: 0
@@ -6583,7 +6588,7 @@ MonoBehaviour:
   inputItemHolder: {fileID: 377909341}
   inputItemSlot: []
   outputItemHolder: {fileID: 1262328641}
-  outputItemSlot: []
+  outputItemSlot: {fileID: 1145303344}
   craftingMenu: {fileID: 1995802580}
   itemCursor: {fileID: 168645162}
   inventoryMenu: {fileID: 362207023}
@@ -6610,6 +6615,7 @@ MonoBehaviour:
     <quantity>k__BackingField: 0
   currentSelectedRecipeIndex: 0
   selectRecipe: {fileID: 0}
+  deSelectRecipe: {fileID: 0}
 --- !u!1001 &1191478980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12924,7 +12930,7 @@ GameObject:
   - component: {fileID: 2130509045}
   - component: {fileID: 2130509044}
   m_Layer: 5
-  m_Name: Button
+  m_Name: CraftButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12994,7 +13000,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2130509045}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1186193179}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: PressKeyToCraft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2130509045
 MonoBehaviour:
   m_ObjectHideFlags: 0
